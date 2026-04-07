@@ -7,7 +7,6 @@
 #include "ast.h"
 #include "parser.h"
 
-// Объявления функций тестирования
 extern void runLexerTests();
 extern void runParserTests();
 extern void runEvaluateTests();
@@ -17,11 +16,9 @@ extern void runDerivativeEvalTests();
 
 
 
-// Функция для режима evaluate
 void runEvaluate() {
     std::string line;
     
-    // 1. Читаем количество переменных
     std::getline(std::cin, line);
     int varCount;
     try {
@@ -31,7 +28,6 @@ void runEvaluate() {
         return;
     }
     
-    // 2. Читаем имена переменных
     std::getline(std::cin, line);
     std::istringstream varStream(line);
     std::vector<std::string> varNames;
@@ -45,7 +41,6 @@ void runEvaluate() {
         }
     }
     
-    // 3. Читаем значения переменных
     std::getline(std::cin, line);
     std::istringstream valStream(line);
     std::vector<double> varValues;
@@ -59,11 +54,9 @@ void runEvaluate() {
         }
     }
     
-    // 4. Читаем выражение
     std::string expression;
     std::getline(std::cin, expression);
     
-    // 5. Создаём словарь переменных
     std::map<std::string, double> vars;
     for (int i = 0; i < varCount; ++i) {
         vars[varNames[i]] = varValues[i];
