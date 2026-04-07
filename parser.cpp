@@ -67,7 +67,6 @@ std::unique_ptr<ExprNode> Parser::parseUnary() {
 std::unique_ptr<ExprNode> Parser::parsePower() {
     auto left = parsePrimary();
     
-    // Проверяем, не является ли левый операнд константой e
     if (auto num = dynamic_cast<NumberNode*>(left.get())) {
         if (std::abs(num->value() - std::exp(1.0)) < 1e-9) {
             if (match(lexem_t::OPERATOR) && currentToken.view() == "^") {
@@ -99,13 +98,11 @@ std::unique_ptr<ExprNode> Parser::parsePrimary() {
     if (match(lexem_t::IDENT)) {
         std::string name = currentToken.view();
         
-        // Константа e
         if (name == "e") {
             nextToken();
             return std::make_unique<NumberNode>(std::exp(1.0));
         }
         
-        // Функции
         if (name == "sin" || name == "cos" || name == "tg" || name == "ctg" || 
             name == "ln" || name == "sqrt" || name == "log") {
             nextToken();
@@ -116,7 +113,6 @@ std::unique_ptr<ExprNode> Parser::parsePrimary() {
             }
         }
         
-        // Переменная
         nextToken();
         return std::make_unique<VariableNode>(name);
     }
@@ -133,11 +129,10 @@ std::unique_ptr<ExprNode> Parser::parsePrimary() {
 }
 
 std::unique_ptr<ExprNode> Parser::parseFunctionCall(const std::string& name) {
-    nextToken();  // пропускаем '('
+    nextToken(); 
     
     std::vector<std::unique_ptr<ExprNode>> args;
     
-    // Если следующий токен не ')', значит есть аргументы
     if (!match(lexem_t::RPAREN)) {
                     args.push_back(parseExpression());
     }
