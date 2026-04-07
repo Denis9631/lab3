@@ -6,7 +6,6 @@
 #include <vector>
 #include <map>
 
-// Базовый класс для всех узлов AST
 class ExprNode {
 public:
     virtual ~ExprNode() = default;
@@ -17,7 +16,6 @@ public:
     virtual std::unique_ptr<ExprNode> clone() const = 0;
 };
 
-// Число (лист)
 class NumberNode : public ExprNode {
     double value_;
 public:
@@ -30,7 +28,6 @@ public:
     std::unique_ptr<ExprNode> clone() const override;
 };
 
-// Переменная (лист)
 class VariableNode : public ExprNode {
     std::string name_;
 public:
@@ -44,7 +41,6 @@ public:
 
 };
 
-// Бинарная операция (узел)
 class BinaryOpNode : public ExprNode {
     char op_;
     std::unique_ptr<ExprNode> left_;
@@ -61,7 +57,6 @@ public:
     std::unique_ptr<ExprNode> clone() const override;
 };
 
-// Унарная операция (например, -x)
 class UnaryOpNode : public ExprNode {
     char op_;
     std::unique_ptr<ExprNode> operand_;
